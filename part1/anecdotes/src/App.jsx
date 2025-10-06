@@ -26,7 +26,7 @@ const anecdotes = [
   }
 
   const voteCounter = () => {
-    const newVotes = [...voteCount];
+    const newVotes = [...voteCount]
     newVotes[selected] += 1
     setVoteCount(newVotes)
   }
@@ -34,12 +34,12 @@ const anecdotes = [
 
 
   const findMaxVotes = () => {
-    const maxVotes = Math.max(...voteCount);
-    const indexOfMax = voteCount.indexOf(maxVotes);
-    return indexOfMax;
+    const maxVotes = Math.max(...voteCount)
+    const indexOfMax = voteCount.indexOf(maxVotes)
+    return indexOfMax
   }
 
-  const mostVotedAnecdoteIndex = findMaxVotes();
+  const mostVotedAnecdoteIndex = findMaxVotes()
 
   return (
     <div>
