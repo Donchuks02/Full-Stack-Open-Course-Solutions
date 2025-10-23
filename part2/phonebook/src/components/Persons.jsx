@@ -5,7 +5,7 @@ const Persons = ({ searchedPerson }) => {
         <li key={person.id}>{person.name} {person.number}</li>
       ))}
     </ul>
-  );
-};
+  )
+}
 
-export default Persons;
+export default Persons

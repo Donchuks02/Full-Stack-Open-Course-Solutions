@@ -11,7 +11,7 @@ const PersonForm = ({ addNames, newName, handleNamesChange, newNumber, handleNum
         <button type="submit">add</button>
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default PersonForm;
+export default PersonForm
