@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import axios from 'axios'
+import phonebookServices from './services/phonebook'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -12,15 +13,27 @@ const App = () => {
   const [searchedPerson, setSearchedPerson] = useState(persons)
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-        setSearchedPerson(response.data)
+    console.log('effect');
+    
+    phonebookServices
+      .getAll()
+      .then(initialPhoneBook => {
+        console.log('promise fulfilled'),
+        setPersons(initialPhoneBook),
+        setSearchedPerson(initialPhoneBook)
+
+      }
+
+      )
+    // console.log('effect')
+    // axios
+    //   .get('http://localhost:3001/persons')
+    //   .then(response => {
+    //     console.log('promise fulfilled')
+    //     setPersons(response.data)
+    //     setSearchedPerson(response.data)
         
-      })
+    //   })
     
   }, [])
 
@@ -41,16 +54,25 @@ const App = () => {
       id: String(persons.length + 1),
       
     }
-    axios
-      .post('http://localhost:3001/persons', namesObject)
-      .then(response => {
-        console.log(response)
-        setPersons(persons.concat(namesObject))    
-        setNewName('')
-        setNewNumber('')
-        setSearchedPerson(persons.concat(namesObject))
+    phonebookServices
+    .create(namesObject)
+    .then(returnedPhoneBook => {
+      setPersons(persons.concat(returnedPhoneBook))    
+      setNewName('')
+      setNewNumber('')
+      setSearchedPerson(persons.concat(returnedPhoneBook))
+
+    })
+    // axios
+    //   .post('http://localhost:3001/persons', namesObject)
+    //   .then(response => {
+    //     console.log(response)
+    //     setPersons(persons.concat(namesObject))    
+    //     setNewName('')
+    //     setNewNumber('')
+    //     setSearchedPerson(persons.concat(namesObject))
         
-      })
+    //   })
     
 
 
