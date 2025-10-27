@@ -41,11 +41,18 @@ const App = () => {
       id: String(persons.length + 1),
       
     }
+    axios
+      .post('http://localhost:3001/persons', namesObject)
+      .then(response => {
+        console.log(response)
+        setPersons(persons.concat(namesObject))    
+        setNewName('')
+        setNewNumber('')
+        setSearchedPerson(persons.concat(namesObject))
+        
+      })
     
-    setPersons(persons.concat(namesObject))    
-    setNewName('')
-    setNewNumber('')
-    setSearchedPerson(persons.concat(namesObject))
+
 
   }
 
