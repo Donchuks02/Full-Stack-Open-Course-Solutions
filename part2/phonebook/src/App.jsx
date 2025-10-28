@@ -13,27 +13,16 @@ const App = () => {
   const [searchedPerson, setSearchedPerson] = useState(persons)
 
   useEffect(() => {
-    console.log('effect');
-    
+        
     phonebookServices
       .getAll()
       .then(initialPhoneBook => {
-        console.log('promise fulfilled'),
         setPersons(initialPhoneBook),
         setSearchedPerson(initialPhoneBook)
 
       }
 
       )
-    // console.log('effect')
-    // axios
-    //   .get('http://localhost:3001/persons')
-    //   .then(response => {
-    //     console.log('promise fulfilled')
-    //     setPersons(response.data)
-    //     setSearchedPerson(response.data)
-        
-    //   })
     
   }, [])
 
@@ -63,19 +52,17 @@ const App = () => {
       setSearchedPerson(persons.concat(returnedPhoneBook))
 
     })
-    // axios
-    //   .post('http://localhost:3001/persons', namesObject)
-    //   .then(response => {
-    //     console.log(response)
-    //     setPersons(persons.concat(namesObject))    
-    //     setNewName('')
-    //     setNewNumber('')
-    //     setSearchedPerson(persons.concat(namesObject))
-        
-    //   })
-    
 
+  }
 
+  const removeName = (id) => {
+
+    phonebookServices
+      .remove(id)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+        setSearchedPerson(searchedPerson.filter(person => person.id !== id))
+      })
   }
 
   const handleNamesChange = (event) => {
@@ -111,7 +98,11 @@ const App = () => {
         handleNumbersChange={handleNumbersChange}
       />
       <h3>Numbers</h3>
-      <Persons searchedPerson={searchedPerson} />
+      <Persons 
+        searchedPerson={searchedPerson} 
+        deleteContact={removeName}
+        
+      />
     </div>
   )
 }
