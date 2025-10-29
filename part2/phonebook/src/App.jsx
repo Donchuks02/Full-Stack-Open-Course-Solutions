@@ -13,7 +13,7 @@ const App = () => {
   const [searchedPerson, setSearchedPerson] = useState(persons)
 
   useEffect(() => {
-        
+
     phonebookServices
       .getAll()
       .then(initialPhoneBook => {
@@ -32,17 +32,36 @@ const App = () => {
   const addNames = (event) => {
     event.preventDefault()
 
-    const nameAlreadyExists = persons.some(person => person.name === capitalizeNames(newName))
-    if (nameAlreadyExists) {
-      alert(`${newName} is already added to phonebook`)
+    const normalized = capitalizeNames(newName)
+    const existingPerson = persons.find(person => person.name === normalized)
+
+    if (existingPerson) {
+      const confirmMsg = `${normalized} is already in the phonebook, replace the old number with a new one?`
+      if (window.confirm(confirmMsg)) {
+        const updatedPerson = { ...existingPerson, number: newNumber }
+        phonebookServices
+          .update(existingPerson.id, updatedPerson)
+          .then(returnedPerson => {
+          setPersons(persons.map(p => p.id === returnedPerson.id ? returnedPerson : p))
+          setSearchedPerson(searchedPerson.map(p => p.id === returnedPerson.id ? returnedPerson : p))
+          setNewName('')
+          setNewNumber('')
+        })
+
+      }else{
+
+      }
       return
     }
+
     const namesObject = {
-      name: capitalizeNames(newName),
+      name: normalized,
       number : newNumber,
       id: String(persons.length + 1),
       
     }
+
+
     phonebookServices
     .create(namesObject)
     .then(returnedPhoneBook => {
