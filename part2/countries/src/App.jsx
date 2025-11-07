@@ -9,8 +9,9 @@ import Countries from './components/Countries'
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('')
-  const [countries, setCountries] = useState([])
+  const [countries, setCountries] = useState(null) //[]
   const [filteredCountries, setFilteredCountries] = useState([])
+  const [selectedCountry, setSelectedCountry] = useState(null)
 
 
   useEffect(() => {
@@ -23,7 +24,14 @@ const App = () => {
     
   }, [])
 
+  if(!countries) {
+    return null
+  }
 
+  const toggleShowButton = (country) => {
+    setSelectedCountry(country)
+    
+  }
 
 
   const handleSearchQuery = (event) => {
@@ -36,9 +44,12 @@ const App = () => {
 
   return (
     <div>
-      <h1>Data for countries</h1>
       <Search searchQuery={searchQuery} handleSearchQuery={handleSearchQuery}/>
-      <Countries filteredCountries={filteredCountries}/>
+      <Countries 
+        filteredCountries={filteredCountries}
+        toggleShowButton={toggleShowButton}
+        selectedCountry={selectedCountry}
+      />
     </div>
   )
 
