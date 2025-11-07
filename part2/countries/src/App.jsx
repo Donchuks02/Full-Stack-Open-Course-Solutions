@@ -2,16 +2,15 @@ import { useState, useEffect } from 'react'
 import Search from './components/Search'
 import countryServices from "./services/countryService"
 import Countries from './components/Countries'
+import weatherServices from './services/weatherService'
 
-// Use the capital city name to fetch weather data:
-
-// Endpoint: https://api.openweathermap.org/data/2.5/weather?q={capital}&appid={API_KEY}&units=metric
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [countries, setCountries] = useState(null) //[]
   const [filteredCountries, setFilteredCountries] = useState([])
   const [selectedCountry, setSelectedCountry] = useState(null)
+  const [weatherData, setWeatherData] = useState(null)
 
 
   useEffect(() => {
@@ -19,14 +18,23 @@ const App = () => {
       .getAll()
       .then(initialCountries => {
         setCountries(initialCountries)
-        
       })
-    
   }, [])
+
+  useEffect(() => {
+    if (selectedCountry) {
+      weatherServices
+        .getWeatherByCapital(selectedCountry.capital)
+        .then(data => {
+          setWeatherData(data)
+        })
+    }
+  }, [selectedCountry])
 
   if(!countries) {
     return null
   }
+
 
   const toggleShowButton = (country) => {
     setSelectedCountry(country)
@@ -50,6 +58,7 @@ const App = () => {
         filteredCountries={filteredCountries}
         toggleShowButton={toggleShowButton}
         selectedCountry={selectedCountry}
+        weatherData={weatherData}
       />
     </div>
   )
