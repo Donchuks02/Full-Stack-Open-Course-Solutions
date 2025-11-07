@@ -37,6 +37,7 @@ const App = () => {
   const handleSearchQuery = (event) => {
     const searchTerm = event.target.value
     setSearchQuery(searchTerm)
+    setSelectedCountry(null)
     const filtered = countries.filter(country => country.name.common.toLowerCase().includes(searchTerm.toLowerCase()))
     setFilteredCountries(filtered)
   }
