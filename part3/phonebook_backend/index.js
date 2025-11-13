@@ -27,6 +27,15 @@ let persons = [
 ]
 
 
+const generateId = (persons = []) => {
+    const MAX = 1e9
+    let id;
+    do {
+        id = String(Math.floor(Math.random() * MAX));
+    } while (persons.some(p => p.id === id));
+    return id;
+}
+
 app.get("/info", (request, response) => {
     total_contact = persons.length
     const date_and_time = new Date
@@ -57,6 +66,32 @@ app.delete("/api/persons/:id", (request, response) => {
     response.status(204).end("Person deleted")
 })
 
+
+app.post("/api/persons", (request, response) => {
+
+    const body = request.body
+
+    if (!body.name || !body.number) {
+        return response.status(400).json({ 
+            error: "name or number is missing" 
+        })
+    }
+
+    if (persons.some(person => person.name === body.name)) {
+        return response.status(400).json({ 
+            error: "name must be unique" 
+        })
+    }
+
+    const person = {
+        id: generateId(persons),
+        name: body.name,
+        number: body.number
+    
+    }
+    persons = persons.concat(person)
+    response.json(person)
+})
 
 
 const PORT = 3001
