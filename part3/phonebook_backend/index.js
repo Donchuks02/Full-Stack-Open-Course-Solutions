@@ -3,7 +3,7 @@ const app = express()
 app.use(express.json())
 
 
-let data = [
+let persons = [
     { 
       "id": "1",
       "name": "Arto Hellas", 
@@ -28,7 +28,7 @@ let data = [
 
 
 app.get("/info", (request, response) => {
-    total_contact = data.length
+    total_contact = persons.length
     const date_and_time = new Date
     response.send(
         `<p>Phonebook has info for ${total_contact} people </p> <p>${date_and_time}</P>`
@@ -37,9 +37,19 @@ app.get("/info", (request, response) => {
 })
 
 app.get("/api/persons", (request, response) => {
-    response.json(data)
+    response.json(persons)
 })
 
+
+app.get("/api/persons/:id", (request, response) => {
+    const id = request.params.id
+    const person = persons.find(person => person.id === id)
+    if (person) {
+        response.json(person)
+    } else {
+        response.status(404).end("Person not found")
+    }
+})
 
 const PORT = 3001
 app.listen(PORT)
