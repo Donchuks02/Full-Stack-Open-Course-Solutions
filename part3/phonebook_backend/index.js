@@ -1,6 +1,9 @@
 const express = require("express")
 const app = express()
+const morgan = require("morgan")
 app.use(express.json())
+app.use(morgan('combined'))
+
 
 
 let persons = [
@@ -28,7 +31,7 @@ let persons = [
 
 
 const generateId = (persons = []) => {
-    const MAX = 1e9
+    const MAX = 19
     let id;
     do {
         id = String(Math.floor(Math.random() * MAX));
@@ -37,7 +40,7 @@ const generateId = (persons = []) => {
 }
 
 app.get("/info", (request, response) => {
-    total_contact = persons.length
+    const total_contact = persons.length
     const date_and_time = new Date
     response.send(
         `<p>Phonebook has info for ${total_contact} people </p> <p>${date_and_time}</P>`
