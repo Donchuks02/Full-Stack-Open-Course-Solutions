@@ -2,7 +2,18 @@ const express = require("express")
 const app = express()
 const morgan = require("morgan")
 app.use(express.json())
-app.use(morgan('tiny'))
+
+
+morgan.token('id', function getId (req) {
+  return req.id
+})
+
+morgan.token('body', function (req) {
+    return JSON.stringify(req.body)
+})
+
+app.use(morgan(':id :method :url :response-time ms - :res[content-length] :body'))
+
 
 
 
