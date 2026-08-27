@@ -3,4 +3,4 @@ My solutions and projects for the Full Stack Open course. This repository showca
 
 ## Online Application
 View the deployed phonebook application here:
-https://your-phonebook-backend.onrender.com
+https://full-stack-open-course-solutions.onrender.com/
