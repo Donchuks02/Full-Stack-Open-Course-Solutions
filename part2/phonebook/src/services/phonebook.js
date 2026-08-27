@@ -1,5 +1,5 @@
 import axios from "axios"
-const baseUrl = 'https://full-stack-open-course-solutions.onrender.com/'
+const baseUrl = 'https://full-stack-open-course-solutions.onrender.com/api/persons'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
