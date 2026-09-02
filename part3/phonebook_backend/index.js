@@ -15,6 +15,8 @@ morgan.token('body', function (req) {
     return JSON.stringify(req.body)
 })
 
+
+// The line below is used to log the request body for POST requests. It uses the morgan middleware to log the request method, URL, response time, and the request body in JSON format. This is useful for debugging and monitoring incoming requests to the server.
 app.use(morgan(':id :method :url :response-time ms - :res[content-length] :body'))
 
 
