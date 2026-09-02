@@ -4,6 +4,7 @@ const morgan = require("morgan")
 const cors = require("cors")
 app.use(express.json())
 app.use(cors())
+app.use(express.static('dist'))
 
 
 morgan.token('id', function getId (req) {
@@ -109,6 +110,9 @@ app.post("/api/persons", (request, response) => {
     response.json(person)
 })
 
+app.get((request, response) => {
+    response.sendFile(require('path').join(__dirname, 'dist/index.html'))
+})
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT)
